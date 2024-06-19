@@ -244,8 +244,8 @@ export class Transformer {
   #getTableIdentifier(table: TableMetadata, context: TransformContext) {
     const name =
       table.schema &&
-      context.defaultSchema &&
-      table.schema !== context.defaultSchema
+        context.defaultSchema &&
+        table.schema !== context.defaultSchema
         ? `${table.schema}.${table.name}`
         : table.name;
     return this.#transformName(name, context);
@@ -289,9 +289,8 @@ export class Transformer {
     }
 
     // Used as a unique identifier for the data type:
-    const dataTypeId = `${
-      column.dataTypeSchema ?? context.defaultSchema
-    }.${dataType}`;
+    const dataTypeId = `${column.dataTypeSchema ?? context.defaultSchema
+      }.${dataType}`;
 
     // Used for serializing the name of the symbol:
     const symbolId =
@@ -342,7 +341,9 @@ export class Transformer {
       const tableProperties: PropertyNode[] = [];
 
       for (const column of table.columns) {
-        const key = this.#transformName(column.name, context);
+        const key = /^[a-z].*[A-Z]/.test(column.name)
+          ? `"${column.name}"`
+          : this.#transformName(column.name, context);
         const value = this.#transformColumn(column, context);
         const comment = column.comment;
         const tableProperty = new PropertyNode(key, value, comment);

@@ -20,7 +20,7 @@ class CaseConverter extends CamelCasePlugin {
  * ```
  */
 export const toCamelCase = (string: string) => {
-  return new CaseConverter().toCamelCase(string);
+  return new CaseConverter().toCamelCase(string).replace(/Id(?![a-z])/, 'ID');
 };
 
 /**
